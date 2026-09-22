@@ -1,9 +1,7 @@
-# Obsidian per-device state (settings are tracked so a clone just works; plugin code is re-downloaded)
+# Obsidian per-device state. Settings and the two plugins are tracked, so a clone just works.
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/cache
-.obsidian/plugins/*/main.js
-.obsidian/plugins/*/styles.css
 .trash/
 
 # Local-only notes: searchable in Obsidian on this computer, never pushed
