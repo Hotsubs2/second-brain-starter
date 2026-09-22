@@ -1,0 +1,7 @@
+{
+  "enableDataviewJs": false,
+  "enableInlineDataviewJs": false,
+  "prettyRenderInlineFields": true,
+  "renderNullAs": "\\-",
+  "warnOnEmptyResult": false
+}

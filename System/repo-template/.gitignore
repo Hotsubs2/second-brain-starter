@@ -1,0 +1,29 @@
+# Secrets: never commit
+.env
+.env.*
+*.key
+**/secrets.json
+
+# Local-only material
+private/
+tmp/
+logs/
+
+# Machine and editor state
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+
+# Raw documents and archives (write a one-line pointer instead)
+*.zip
+*.tar.gz
+*.db
+*.sqlite
+*.pdf
+*.docx
+*.xlsx
