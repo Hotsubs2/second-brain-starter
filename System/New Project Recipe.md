@@ -46,7 +46,7 @@ The starter tree:
 
 ## 5. Give it a note in the vault (**you**, thirty seconds)
 
-New note, name it after the project folder, **Insert template → Project**, set `repos:` to the repository's GitHub name, write one line under "What this is". It appears on [[Projects]] by itself.
+New note, name it after the project folder, then Cmd+P (Ctrl+P on Windows) → **Templates: Insert template** → **Project**. Set `repos:` to the repository's GitHub name, write one line under "What this is". It appears on [[Projects]] by itself.
 
 ## Branches, in every repository
 

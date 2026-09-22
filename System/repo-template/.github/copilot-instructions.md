@@ -1,0 +1,1 @@
+Read `AGENTS.md` before changing anything. It holds the seven rules: GitHub is the record; read before you act; branch, never `main`, and never merge; nothing secret or private about others; small honest changes; leave the next step in the pull request; stop and ask when unsure.

@@ -74,6 +74,6 @@ If a secret slips in: change the password or revoke the key first. That is the f
 Everything below is one pull request away. Ask an AI in plain words.
 
 - A new kind of note (people, meetings, decisions): "add a People template like the Project one, and a People page like Projects."
-- A second computer: clone the vault there, open it, install the two plugins. Same settings travel with it.
+- A second computer: clone the vault there and open it. The plugins and their settings travel with it.
 - The phone: a separate decision with its own trade-offs. Ask Hogan first.
 - Many repositories: when the rules and the repo template outgrow this vault, they can move to their own repository. One pull request.

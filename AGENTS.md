@@ -1,6 +1,6 @@
 # Rules for any AI working here
 
-This repository is the owner's Obsidian vault and the home of the rules for every repository the owner keeps. Any AI may work here. Codex, Cursor, Copilot, and most tools read this file directly; Claude reads `CLAUDE.md`, which imports it; Cursor also reads `.cursor/rules/`. No tool is chosen, and two may work on the same day on different branches.
+This repository is the owner's Obsidian vault and the home of the rules for every repository the owner keeps. Any AI may work here. Codex and most tools read this file directly; Claude reads `CLAUDE.md`, Gemini CLI reads `GEMINI.md`, Copilot reads `.github/copilot-instructions.md`, Cursor reads `.cursor/rules/`, and all of those point here. No tool is chosen, and two may work on the same day on different branches.
 
 Who the owner is, and what is off limits, is in `Profile.md`. Read it first, every time.
 
