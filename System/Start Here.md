@@ -8,7 +8,8 @@ The first-time checklist. Twenty minutes. Every step has something to see.
 
 ## On your computer
 
-- [ ] Install **GitHub Desktop** and **Obsidian**.
+- [ ] Install **Git** itself. Mac: open Terminal, type `git --version`, accept the prompt to install the command line tools. Windows: git-scm.com, all defaults. Obsidian Git needs it; GitHub Desktop's built-in copy is not enough.
+- [ ] Install **GitHub Desktop** and **Obsidian**. Sign in to GitHub Desktop: it stores the GitHub login Obsidian Git uses and sets your name and email for commits.
 - [ ] GitHub Desktop → **Clone repository** → this repository → into a new folder `~/Projects/<Your Name>/`.
 - [ ] Obsidian → **Open folder as vault** → the cloned folder itself. When asked, **trust the author and enable plugins**.
 - [ ] Settings → **Community plugins** → Browse → install and enable **Obsidian Git** and **Dataview**. Their settings are already here.
@@ -17,6 +18,7 @@ The first-time checklist. Twenty minutes. Every step has something to see.
 
 ## Make it yours
 
+- [ ] Obsidian Git shows in the status bar. If it says Git is not installed, install Git (first step above) and restart Obsidian. If it says "Please tell me who you are", set your name and email in GitHub Desktop → Settings → Git.
 - [ ] Open [[Profile]]. Fill the three lines marked **you**: your name, your GitHub handle, your off-limits list in your own words. Put today's date on the "Set up" line.
 - [ ] Click the **calendar icon** on the left ribbon. Today's note appears from the template. Type one line under **Log**.
 - [ ] Open [[Projects]]. The tables render (empty is fine). Raw `TABLE ...` text means Dataview is not enabled yet.

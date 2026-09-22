@@ -18,7 +18,7 @@ date: {{date}}
 ```dataview
 TASK
 FROM "Daily"
-WHERE !completed AND text != "" AND file.name = dateformat(date(today) - dur(1 day), "yyyy-MM-dd")
+WHERE !completed AND text != "" AND file.name = dateformat(date(this.date) - dur(1 day), "yyyy-MM-dd")
 ```
 
 ## Log
