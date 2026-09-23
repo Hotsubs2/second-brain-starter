@@ -6,13 +6,15 @@ type: index
 
 Two verbs.
 
-**Capture.** Click the calendar icon on the left. Type a line in today's note. It is backed up to GitHub within ten minutes, by itself.
+**Capture.** Click the calendar icon on the left. Type a line in today's note. Once Obsidian Git is authenticated and enabled, the configured schedule backs it up to GitHub. Verify a real save during setup.
 
 **Approve.** Ask any AI for anything. It comes back on GitHub as a change with a plain-English summary. Read the summary, click merge.
 
 ## First time here?
 
 Fill in [[Profile]] (your name, your GitHub handle, your off-limits list), then follow [[System/Start Here|Start Here]].
+
+On a call with a friend? Use the [[onboarding/FRIEND|guided onboarding]]. It takes you from setup to a useful AI contribution and gives you a way back next time.
 
 ## Start here
 
