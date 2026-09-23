@@ -62,6 +62,21 @@ def read_content(path: Path) -> dict:
         stage_ids.add(stage["id"])
         for key in ("actions", "send", "recovery", "prompt_ids"):
             require_list(stage[key], f"{where}.{key}")
+        live = stage.get("live")
+        if not isinstance(live, dict):
+            raise ValueError(f"{where}.live must be an object")
+        for key in ("purpose", "transition"):
+            if not require_text(live.get(key), f"{where}.live.{key}").strip():
+                raise ValueError(f"{where}.live.{key} must not be empty")
+        steps = require_list(live.get("steps"), f"{where}.live.steps")
+        if not 2 <= len(steps) <= 6:
+            raise ValueError(f"{where}.live.steps must contain 2–6 steps")
+        for step_index, step in enumerate(steps):
+            if not isinstance(step, dict):
+                raise ValueError(f"{where}.live.steps[{step_index}] must be an object")
+            for key in ("say", "action", "see"):
+                if not require_text(step.get(key), f"{where}.live.steps[{step_index}].{key}").strip():
+                    raise ValueError(f"{where}.live.steps[{step_index}].{key} must not be empty")
         for item in stage["actions"]:
             require_text(item, f"{where}.actions item")
         for item in stage["prompt_ids"]:
@@ -96,6 +111,16 @@ CSS = r"""
 
 
 CSS += "\n@media screen and (min-width:851px){.rail{max-height:calc(100vh - 2rem);overflow-y:auto}}\n"
+CSS += r"""
+.masthead{padding:.85rem clamp(1rem,3vw,2.4rem)}.masthead-inner{align-items:center}.masthead h1{font-size:clamp(1.45rem,2.4vw,2.15rem);max-width:none;letter-spacing:-.025em;margin:.06em 0}.masthead .subtitle{font-size:.85rem;margin:.12rem 0 0}.masthead .meta{font-size:.74rem}.masthead .meta p{margin:.08rem 0}.layout{padding:1rem clamp(1rem,3vw,2.4rem) 4rem;gap:clamp(1rem,2.4vw,2rem)}.setup{padding:0;margin-bottom:.85rem}.setup summary{cursor:pointer;padding:.8rem 1rem;color:var(--green);font-weight:750}.setup-content{padding:0 1rem 1rem}.setup-note{margin:.1rem 0 .8rem}.stage{padding:clamp(1rem,2.2vw,1.8rem)}.stage-top{padding-bottom:.75rem}.stage-top h2{font-size:clamp(1.7rem,2.8vw,2.35rem)}.stage-purpose{margin:1rem 0;color:#405b4b;font-size:1rem}.call-orientation{background:#edf3e9;border-left:4px solid var(--green);padding:.75rem 1rem;margin:1rem 0;border-radius:0 9px 9px 0}.call-orientation p{margin:.25rem 0}.live-card{background:#f7faf5;border:1px solid #cbdcc9;border-radius:14px;padding:clamp(1rem,2vw,1.6rem);margin:1rem 0}.live-card .eyebrow{margin-bottom:.25rem}.microstep[hidden]{display:none}.microstep-title{font-size:1.25rem;font-family:Georgia,"Times New Roman",serif;margin:0 0 1rem}.live-row{padding:.8rem 0;border-top:1px solid var(--line)}.live-row:first-of-type{border-top:0}.live-row h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--green);margin:0 0 .3rem}.live-row p{font-size:1.02rem;line-height:1.5;white-space:pre-wrap;margin:0}.live-row.say-row p{font:1.19rem/1.5 Georgia,"Times New Roman",serif}.live-row.see-row{background:#e9f1e7;border-radius:9px;border:0;padding:.75rem;margin-top:.7rem}.transition{border-top:1px solid var(--line);margin-top:1rem;padding-top:.8rem}.transition strong{color:var(--green);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}.transition p{margin:.25rem 0 0}.micro-controls{display:flex;justify-content:space-between;gap:.6rem;margin-top:1.15rem}.micro-controls .button:last-child{margin-left:auto}.utility-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1rem}.utility-card,.full-notes{border:1px solid var(--line);border-radius:12px;background:#fafbf6;padding:.75rem 1rem}.utility-card>summary,.full-notes>summary{cursor:pointer;color:var(--green);font-weight:750}.utility-card[open],.full-notes[open]{background:var(--card)}.full-notes{margin-top:.75rem}.full-notes .stage-grid{display:block;margin:.8rem 0 0}.full-notes .block{margin:.8rem 0}.full-notes .block-label{margin-bottom:.35rem}.full-notes .say{font-size:1rem}.full-notes .action-list{font-size:.9rem}.full-notes .see{font-size:.9rem}.send-list{margin-top:.75rem}.send-card{grid-template-columns:minmax(0,1fr) auto}.send-card details{grid-column:1/-1}.send-card details summary{color:var(--green);cursor:pointer;font-size:.8rem}.send-text{max-height:11rem;overflow:auto}.prompt-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.4rem .6rem;align-items:start;margin:.65rem 0}.prompt-card details{min-width:0}.prompt-card .prompt-hint{margin:.25rem 0}.prompt-card .prompt-body{max-height:16rem}.prompt-card .prompt-actions{grid-column:1/-1}.prompt-card .button{padding:.4rem .6rem;min-height:2rem}.stage-bottom{margin-top:1rem;padding-top:.8rem}.complete{font-size:.8rem}.stage-intro{font-size:.85rem}.foot-card{margin-top:.85rem}
+@media(max-width:1000px){.utility-grid{grid-template-columns:1fr}}
+@media(max-width:850px){.masthead{padding:.8rem 1rem}.masthead .meta{display:none}.rail-card{padding:.65rem .9rem}.rail-head,.progress-track,.rail-actions{display:none}.stage-nav li{min-width:9rem}.layout{gap:.7rem}.stage{padding:1rem}}
+@media(max-width:600px){.masthead .subtitle{display:none}.micro-controls .button{white-space:normal}.live-row p{font-size:.96rem}.live-row.say-row p{font-size:1.08rem}}
+.layout,.rail,.rail-card,.main,.setup,.stage,.live-card,.microstep,.utility-card,.full-notes{min-width:0;max-width:100%}.stage-purpose,.microstep-title,.live-row p,.transition p,.action-list li,.recovery p{overflow-wrap:anywhere}.stage-nav{max-width:100%}.stage-top>div{min-width:0}.micro-controls{min-width:0;flex-wrap:wrap}.micro-controls .button{max-width:100%}.prompt-card,.send-card{min-width:0}.prompt-card details,.send-card details{min-width:0;max-width:100%}.prompt-body,.send-text{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}
+@media(max-width:850px){.layout{grid-template-columns:minmax(0,1fr)}.rail{width:100%;overflow:hidden}.rail-card{width:100%;overflow:hidden}.stage-nav{width:100%;overflow-x:auto;overscroll-behavior-inline:contain}.stage-nav li{flex:0 0 9rem}.rail-actions{display:flex;margin-top:.35rem}.rail-actions .button{min-height:2rem;padding:.3rem .6rem}.main{width:100%}.masthead .meta{display:block;min-width:0;white-space:nowrap}.masthead .meta .pill,.masthead .meta #version,.masthead .meta #base-sha{display:none}}
+@media(max-width:600px){.masthead .meta{text-align:left;margin:.2rem 0 0}}
+@media print{.masthead .meta,.masthead .meta .pill,.masthead .meta #version,.masthead .meta #base-sha{display:block}.setup{display:none!important}.stage{display:block!important}.microstep[hidden]{display:block!important}.live-card{border:0;padding:0;margin:.4rem 0}.microstep{break-inside:avoid;border-top:1px solid #aaa;padding:.6rem 0}.micro-controls{display:none}.utility-grid{display:block}.utility-card,.full-notes{break-inside:auto;border:0;padding:0}.utility-card>summary,.full-notes>summary{font-size:12pt}.utility-card details>*{display:block}.send-card details .send-text{max-height:none;overflow:visible}.prompt-card{display:block}.prompt-card details .prompt-body{max-height:none;overflow:visible}.prompt-actions{display:none}.call-orientation{border:1px solid #aaa;background:white}.transition{break-inside:avoid}.live-row.see-row{background:white;border:1px solid #aaa}}
+"""
 
 JS = r"""
 (() => {
@@ -108,14 +133,23 @@ JS = r"""
   byId('base-sha').textContent = 'Template ' + data.base_sha;
   byId('share-link').href = data.share_url;
   document.title = data.title + ' · facilitator guide';
-  const state = { index: 0, done: {}, storage: false };
-  const key = 'itsadoor-facilitator-progress-v1';
+  const state = { index: 0, micro: 0, done: {}, storage: false };
+  const key = 'itsadoor-facilitator-progress-v2';
   const fields = { HANDLE: byId('handle'), VAULT_REPO: byId('vault-repo') };
   const labels = { HANDLE: 'GitHub handle', VAULT_REPO: 'vault repository name' };
   const tokenRe = /\{\{(HANDLE|VAULT_REPO)\}\}/g;
   let statusTimer;
   let fallbackReturnFocus = null;
-  try { const saved = JSON.parse(localStorage.getItem(key) || '{}'); if (saved && typeof saved === 'object' && !Array.isArray(saved)) state.done = saved; state.storage = true; } catch (_) { state.done = {}; }
+  try {
+    const saved = JSON.parse(localStorage.getItem(key) || '{}');
+    if (saved && typeof saved === 'object' && !Array.isArray(saved)) {
+      if (saved.done && typeof saved.done === 'object' && !Array.isArray(saved.done)) state.done = saved.done;
+      if (Number.isInteger(saved.index) && saved.index >= 0 && saved.index < data.stages.length) state.index = saved.index;
+      if (Number.isInteger(saved.micro) && saved.micro >= 0 && saved.micro < data.stages[state.index].live.steps.length) state.micro = saved.micro;
+    }
+    state.storage = true;
+  } catch (_) { state.done = {}; }
+  function persist() { if (state.storage) { try { localStorage.setItem(key, JSON.stringify({ index: state.index, micro: state.micro, done: state.done })); } catch (_) { state.storage = false; } } }
   function el(tag, cls, content) { const node = document.createElement(tag); if (cls) node.className = cls; if (content !== undefined) node.textContent = content; return node; }
   function validate(name) {
     const value = fields[name].value.trim();
@@ -132,6 +166,12 @@ JS = r"""
     return { text: text.replace(tokenRe, (_, name) => fields[name].value.trim()) };
   }
   function preview(text) { return text.replace(tokenRe, (token, name) => validate(name) ? token : fields[name].value.trim()); }
+  function askForFields(text, message) {
+    byId('setup-title').parentElement.open = true;
+    const first = required(text).find(name => validate(name));
+    if (first) fields[first].focus();
+    announce(message);
+  }
   function updateFields() {
     const stage = data.stages[state.index];
     const promptText = stage.prompt_ids.map(id => data.prompts.find(item => item.id === id).body).join('\n');
@@ -147,8 +187,9 @@ JS = r"""
     document.querySelectorAll('[data-preview]').forEach(node => { node.textContent = preview(node.dataset.preview); });
     document.querySelectorAll('[data-copy]').forEach(button => {
       const missing = required(button.dataset.copy).filter(name => validate(name));
-      button.title = missing.length ? 'Needs valid ' + missing.map(name => labels[name]).join(', ') : '';
-      button.setAttribute('aria-disabled', missing.length ? 'true' : 'false');
+      if (!button.dataset.readyLabel) button.dataset.readyLabel = button.textContent;
+      button.textContent = missing.length ? 'Add notebook details' : button.dataset.readyLabel;
+      button.title = missing.length ? 'Open Names for this call to add ' + missing.map(name => labels[name]).join(', ') : '';
     });
   }
   function announce(message) {
@@ -163,7 +204,7 @@ JS = r"""
   function closeFallback() { byId('fallback').hidden = true; if (fallbackReturnFocus && fallbackReturnFocus.focus) fallbackReturnFocus.focus(); }
   async function copy(text, label) {
     const result = resolved(text);
-    if (result.error) { announce(result.error); return; }
+    if (result.error) { askForFields(text, result.error); return; }
     try { if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard API unavailable'); await navigator.clipboard.writeText(result.text); announce(label + ' copied.'); return; } catch (_) {}
     const area = document.createElement('textarea'); area.value = result.text; area.style.position = 'fixed'; area.style.opacity = '0'; document.body.append(area); area.select();
     let worked = false; try { worked = document.execCommand('copy'); } catch (_) {} area.remove();
@@ -171,7 +212,7 @@ JS = r"""
   }
   function download(text, filename) {
     const result = resolved(text);
-    if (result.error) { announce(result.error); return; }
+    if (result.error) { askForFields(text, result.error); return; }
     try {
       const url = URL.createObjectURL(new Blob([result.text], { type: 'text/markdown;charset=utf-8' }));
       const link = el('a'); link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove();
@@ -184,34 +225,57 @@ JS = r"""
     const article = el('article', 'stage'); article.id = 'stage-' + index; article.setAttribute('aria-labelledby', 'stage-title-' + index);
     const top = el('div', 'stage-top'); const titleBox = el('div'); titleBox.append(el('div', 'eyebrow', 'Step ' + String(index + 1).padStart(2, '0') + ' / ' + String(data.stages.length).padStart(2, '0')));
     const title = el('h2', '', stage.title); title.id = 'stage-title-' + index; title.tabIndex = -1; titleBox.append(title); top.append(titleBox, el('span', 'stage-time', stage.time)); article.append(top);
-    const grid = el('div', 'stage-grid');
-    const say = block('Say'); say.append(el('p', 'say', stage.say)); grid.append(say);
-    const acts = block('Guide the steps'); const list = el('ol', 'action-list'); stage.actions.forEach(action => list.append(el('li', '', action))); acts.append(list); grid.append(acts);
-    const see = block('Look for'); see.append(el('p', 'see', stage.see)); grid.append(see);
+    article.append(el('p', 'stage-purpose', stage.live.purpose));
+    if (index === 0) {
+      const orientation = el('aside', 'call-orientation');
+      orientation.append(el('strong', '', 'Before you begin'), el('p', '', 'Have Google Meet, this guide, the participant guide, the starter repository, and their chosen AI ready. Your friend controls their own screen. Keep the final 25 minutes for project work, the contribution, and a clear handoff; switch to the browser route if one setup issue takes five minutes.'));
+      article.append(orientation);
+    }
+    const live = el('section', 'live-card'); live.setAttribute('aria-label', 'Live guide for ' + stage.title);
+    stage.live.steps.forEach((step, stepIndex) => {
+      const panel = el('div', 'microstep'); panel.dataset.micro = stepIndex;
+      panel.append(el('div', 'eyebrow', 'Live guide · ' + (stepIndex + 1) + ' of ' + stage.live.steps.length));
+      const heading = el('h3', 'microstep-title', stage.title + ' · ' + (stepIndex + 1)); heading.tabIndex = -1; panel.append(heading);
+      for (const [label, key, cls] of [['Say this', 'say', 'say-row'], ['Guide this action', 'action', 'action-row'], ['Wait until you see', 'see', 'see-row']]) {
+        const row = el('div', 'live-row ' + cls); row.append(el('h4', '', label), el('p', '', step[key])); panel.append(row);
+      }
+      if (stepIndex === stage.live.steps.length - 1) { const transition = el('div', 'transition'); transition.append(el('strong', '', 'Before the next stage'), el('p', '', stage.live.transition)); panel.append(transition); }
+      const controls = el('div', 'micro-controls');
+      const back = button('← Back', 'button secondary', () => stepIndex ? select(index, stepIndex - 1) : select(index - 1, data.stages[index - 1].live.steps.length - 1)); back.disabled = index === 0 && stepIndex === 0;
+      const last = stepIndex === stage.live.steps.length - 1;
+      const next = button(last ? (index === data.stages.length - 1 ? 'Finish guide' : 'Next stage →') : 'Next →', 'button', () => { if (last) { if (index < data.stages.length - 1) select(index + 1, 0); else announce('You reached the final step. Check the handoff and mark this stage complete when it is done.'); } else select(index, stepIndex + 1); });
+      controls.append(back, next); panel.append(controls); live.append(panel);
+    });
+    article.append(live);
+    const utilities = el('div', 'utility-grid');
+    if (stage.recovery.length) {
+      const stuck = el('details', 'utility-card recovery'); stuck.append(el('summary', '', 'Stuck? Open recovery options'));
+      stage.recovery.forEach(item => { const details = el('details'); details.append(el('summary', '', item.symptom), el('p', '', item.action)); stuck.append(details); }); utilities.append(stuck);
+    }
     if (stage.send.length) {
-      const send = block('Send or copy'); const cards = el('div', 'send-list');
-      stage.send.forEach(item => { const card = el('div', 'send-card'); const strong = el('strong', '', item.label); const copyButton = button('Copy message', 'button secondary', () => copy(item.text, item.label)); copyButton.dataset.copy = item.text; const printText = el('pre', 'send-text', item.text); printText.dataset.preview = item.text; card.append(strong, copyButton, printText); cards.append(card); });
-      send.append(cards); grid.append(send);
+      const send = el('details', 'utility-card'); send.open = true; send.append(el('summary', '', 'Send or copy')); const cards = el('div', 'send-list');
+      stage.send.forEach(item => { const card = el('div', 'send-card'); const strong = el('strong', '', item.label); const copyButton = button('Copy', 'button secondary', () => copy(item.text, item.label)); copyButton.dataset.copy = item.text; const details = el('details'); details.append(el('summary', '', 'View full text')); const printText = el('pre', 'send-text', item.text); printText.dataset.preview = item.text; details.append(printText); card.append(strong, copyButton, details); cards.append(card); });
+      send.append(cards); utilities.append(send);
     }
     if (stage.prompt_ids.length) {
-      const prompts = block('Prompts', true);
+      const prompts = el('details', 'utility-card'); prompts.open = true; prompts.append(el('summary', '', 'Prompts for this stage'));
       stage.prompt_ids.forEach(id => {
-        const prompt = data.prompts.find(item => item.id === id); const details = el('details', 'prompt-card');
+        const prompt = data.prompts.find(item => item.id === id); const card = el('div', 'prompt-card'); const details = el('details');
         const summary = el('summary'); summary.append(el('strong', '', prompt.title)); details.append(summary);
         if (prompt.hint) details.append(el('p', 'prompt-hint', prompt.hint));
         const body = el('pre', 'prompt-body'); body.dataset.preview = prompt.body; body.textContent = preview(prompt.body); details.append(body);
-        const actions = el('div', 'prompt-actions'); const copyButton = button('Copy full prompt', 'button', () => copy(prompt.body, prompt.title)); copyButton.dataset.copy = prompt.body;
+        const copyButton = button('Copy prompt', 'button', () => copy(prompt.body, prompt.title)); copyButton.dataset.copy = prompt.body;
         const filename = prompt.file.split('/').pop() || 'prompt.md'; const downloadButton = button('Download .md', 'button secondary', () => download(prompt.body, filename)); downloadButton.dataset.copy = prompt.body;
-        actions.append(copyButton, downloadButton); details.append(actions); prompts.append(details);
-      }); grid.append(prompts);
+        const actions = el('div', 'prompt-actions'); actions.append(downloadButton); card.append(details, copyButton, actions); prompts.append(card);
+      }); utilities.append(prompts);
     }
-    if (stage.recovery.length) {
-      const recover = block('If something goes wrong', true); recover.classList.add('recovery');
-      stage.recovery.forEach(item => { const details = el('details'); details.append(el('summary', '', item.symptom), el('p', '', item.action)); recover.append(details); }); grid.append(recover);
-    }
-    article.append(grid);
-    const bottom = el('div', 'stage-bottom'); const complete = el('label', 'complete'); const checkbox = el('input'); checkbox.type = 'checkbox'; checkbox.checked = !!state.done[stage.id]; checkbox.addEventListener('change', () => { state.done[stage.id] = checkbox.checked; if (state.storage) { try { localStorage.setItem(key, JSON.stringify(state.done)); } catch (_) { state.storage = false; } } updateProgress(); }); complete.append(checkbox, document.createTextNode('Mark this step complete'));
-    const controls = el('div', 'stage-controls'); const back = button('← Back', 'button secondary', () => select(index - 1)); back.disabled = index === 0; const next = button(index === data.stages.length - 1 ? 'Back to first' : 'Next step →', 'button', () => select(index === data.stages.length - 1 ? 0 : index + 1)); controls.append(back, next); bottom.append(complete, controls); article.append(bottom);
+    article.append(utilities);
+    const notes = el('details', 'full-notes'); notes.append(el('summary', '', 'Full stage notes'));
+    const grid = el('div', 'stage-grid');
+    const say = block('Stage opener'); say.append(el('p', 'say', stage.say)); grid.append(say);
+    const acts = block('Full action list'); const list = el('ol', 'action-list'); stage.actions.forEach(action => list.append(el('li', '', action))); acts.append(list); grid.append(acts);
+    const see = block('Stage result'); see.append(el('p', 'see', stage.see)); grid.append(see); notes.append(grid); article.append(notes);
+    const bottom = el('div', 'stage-bottom'); const complete = el('label', 'complete'); const checkbox = el('input'); checkbox.type = 'checkbox'; checkbox.checked = !!state.done[stage.id]; checkbox.addEventListener('change', () => { state.done[stage.id] = checkbox.checked; persist(); updateProgress(); }); complete.append(checkbox, document.createTextNode('Mark stage complete after you verify it')); bottom.append(complete); article.append(bottom);
     return article;
   }
   function updateProgress() {
@@ -220,13 +284,20 @@ JS = r"""
     byId('progress-bar').style.width = (count / data.stages.length * 100) + '%';
     document.querySelectorAll('.nav-done').forEach((node, index) => { node.textContent = state.done[data.stages[index].id] ? '✓' : ''; });
   }
-  function select(index, scroll = true) {
+  function select(index, micro = 0, scroll = true, save = true) {
     if (index < 0 || index >= data.stages.length) return;
-    state.index = index;
+    if (micro < 0 || micro >= data.stages[index].live.steps.length) return;
+    state.index = index; state.micro = micro;
     document.querySelectorAll('.stage').forEach((node, i) => { const active = i === index; node.classList.toggle('active', active); node.setAttribute('aria-hidden', active ? 'false' : 'true'); });
     document.querySelectorAll('.nav-button').forEach((node, i) => { if (i === index) node.setAttribute('aria-current', 'step'); else node.removeAttribute('aria-current'); });
+    document.querySelectorAll('.microstep').forEach(node => { node.hidden = Number(node.dataset.micro) !== micro || !node.closest('.stage').classList.contains('active'); });
     updateFields();
-    if (scroll) { byId('stage-' + index).scrollIntoView({ block: 'start', behavior: 'smooth' }); byId('stage-title-' + index).focus({ preventScroll: true }); }
+    if (save) persist();
+    if (scroll) {
+      document.querySelectorAll('.nav-button')[index].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      byId('stage-' + index).scrollIntoView({ block: 'start', behavior: 'smooth' });
+      const heading = byId('stage-' + index).querySelector('.microstep:not([hidden]) .microstep-title'); heading.focus({ preventScroll: true });
+    }
   }
   data.stages.forEach((stage, index) => {
     const li = el('li'); const nav = button('', 'nav-button', () => select(index)); nav.append(el('span', 'nav-number', String(index + 1).padStart(2, '0')));
@@ -236,7 +307,7 @@ JS = r"""
   data.sources.forEach(source => { const li = el('li'); const link = el('a', '', source.label); link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; li.append(link); byId('sources').append(li); });
   for (const input of Object.values(fields)) input.addEventListener('input', updateFields);
   byId('print-guide').addEventListener('click', () => window.print());
-  byId('new-call').addEventListener('click', () => { for (const input of Object.values(fields)) input.value = ''; state.done = {}; if (state.storage) { try { localStorage.removeItem(key); } catch (_) {} } document.querySelectorAll('.complete input').forEach(node => { node.checked = false; }); updateFields(); updateProgress(); select(0); announce('New call started. Progress and fields cleared.'); });
+  byId('new-call').addEventListener('click', () => { for (const input of Object.values(fields)) input.value = ''; state.done = {}; state.index = 0; state.micro = 0; if (state.storage) { try { localStorage.removeItem(key); } catch (_) {} } document.querySelectorAll('.complete input').forEach(node => { node.checked = false; }); updateFields(); updateProgress(); select(0, 0, true, false); announce('New call started. Progress, place, and fields cleared.'); });
   byId('fallback-close').addEventListener('click', closeFallback);
   byId('fallback').addEventListener('click', event => { if (event.target === byId('fallback')) closeFallback(); });
   document.addEventListener('keydown', event => {
@@ -245,9 +316,9 @@ JS = r"""
     if (event.key === 'Tab') { event.preventDefault(); (document.activeElement === byId('fallback-text') ? byId('fallback-close') : byId('fallback-text')).focus(); }
   });
   let printOpen = [];
-  window.addEventListener('beforeprint', () => { printOpen = [...document.querySelectorAll('.prompt-card:not([open]), .recovery details:not([open])')]; printOpen.forEach(node => { node.open = true; }); });
+  window.addEventListener('beforeprint', () => { printOpen = [...document.querySelectorAll('details:not([open])')]; printOpen.forEach(node => { node.open = true; }); });
   window.addEventListener('afterprint', () => { printOpen.forEach(node => { node.open = false; }); printOpen = []; });
-  updateFields(); updateProgress(); select(0, false);
+  updateFields(); updateProgress(); select(state.index, state.micro, false);
 })();
 """
 
@@ -265,10 +336,10 @@ def render(data: dict) -> str:
 <style>{CSS}</style>
 </head>
 <body>
-<header class="masthead"><div class="masthead-inner"><div><div class="eyebrow">A calm, practical walkthrough</div><h1 id="guide-title"></h1><p class="subtitle" id="guide-subtitle"></p></div><div class="meta"><span class="pill">Offline ready</span><p id="version"></p><p id="base-sha"></p><p><a id="share-link" target="_blank" rel="noopener noreferrer">Open share page ↗</a></p></div></div></header>
+<header class="masthead"><div class="masthead-inner"><div><div class="eyebrow">A calm, practical walkthrough</div><h1 id="guide-title"></h1><p class="subtitle" id="guide-subtitle"></p></div><div class="meta"><span class="pill">Offline ready</span><p id="version"></p><p id="base-sha"></p><p><a id="share-link" target="_blank" rel="noopener noreferrer">Open participant guide ↗</a></p></div></div></header>
 <div class="layout">
 <aside class="rail" aria-label="Guide steps"><div class="rail-card"><div class="rail-head"><span class="eyebrow">The call</span><strong id="progress-count">0 / 0</strong></div><div class="progress-track" role="presentation"><div id="progress-bar" class="progress-bar"></div></div><ol id="stage-nav" class="stage-nav"></ol><div class="rail-actions"><button id="new-call" type="button" class="text-button">Start a new call · clear progress</button><button id="print-guide" type="button" class="button secondary">Print guide</button></div></div></aside>
-<main class="main"><section class="setup" aria-labelledby="setup-title"><div class="setup-header"><h3 id="setup-title">Names for this call</h3><span class="eyebrow">Kept on this page only</span></div><p class="setup-note">Enter these as your friend confirms them. They are used only when preparing a message or prompt. Progress checkmarks may be saved in this browser; these names are never saved.</p><div class="fields"><div class="field"><label for="handle">GitHub handle</label><input id="handle" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="friend-handle" aria-describedby="handle-error"><p class="error" id="handle-error"></p></div><div class="field"><label for="vault-repo">Vault repository name</label><input id="vault-repo" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="name-second-brain" aria-describedby="vault-repo-error"><p class="error" id="vault-repo-error"></p></div></div><p id="validation" class="validation" aria-live="polite"></p></section><div id="stages"></div><section class="foot-card" aria-labelledby="sources-title"><h3 id="sources-title">Reference links</h3><ul id="sources" class="source-list"></ul><p class="print-note">Printed from the offline guide. Prompts are included in full; replace any remaining brace placeholders with the names from your call.</p></section></main>
+<main class="main"><details class="setup"><summary id="setup-title">Names for this call · open when confirmed</summary><div class="setup-content"><p class="setup-note">Enter these as your friend confirms them. They are used only when preparing a message or prompt. Your place and checkmarks may be saved in this browser; these names are never saved.</p><div class="fields"><div class="field"><label for="handle">GitHub handle</label><input id="handle" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="friend-handle" aria-describedby="handle-error"><p class="error" id="handle-error"></p></div><div class="field"><label for="vault-repo">Vault repository name</label><input id="vault-repo" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="name-second-brain" aria-describedby="vault-repo-error"><p class="error" id="vault-repo-error"></p></div></div><p id="validation" class="validation" aria-live="polite"></p></div></details><div id="stages"></div><section class="foot-card" aria-labelledby="sources-title"><h3 id="sources-title">Reference links</h3><ul id="sources" class="source-list"></ul><p class="print-note">Printed from the offline guide. Prompts are included in full; replace any remaining brace placeholders with the names from your call.</p></section></main>
 </div>
 <div id="status" class="status" role="status" aria-live="polite"></div>
 <div id="fallback" class="fallback" hidden><div class="fallback-panel" role="dialog" aria-modal="true" aria-labelledby="fallback-title"><h3 id="fallback-title">Copy this text manually</h3><p>Clipboard access is unavailable here. The text is selected; press Copy on your keyboard.</p><textarea id="fallback-text" readonly></textarea><button id="fallback-close" type="button" class="button secondary">Close</button></div></div>
@@ -278,14 +349,49 @@ def render(data: dict) -> str:
 """
 
 
+def render_script(data: dict) -> str:
+    """Produce a complete, printable script from the same verified source as the page."""
+    lines = [
+        "---", "type: note", "---", "", f"# {data['title']} — facilitator script", "",
+        data["subtitle"], "", f"Version {data['version']} · template {data['base_sha']}", "",
+        "Use alongside the [participant guide](" + data["share_url"] + "). Your friend controls their own screen. Have Meet, this guide, the starter repository, and their AI ready. Keep the final 25 minutes for project work, contribution, and handoff. Switch to the browser route after five minutes stuck on one setup issue.", "",
+        "Replace `{{HANDLE}}` and `{{VAULT_REPO}}` with values your friend confirms. Do not put credentials or private project material into this guide.", "",
+    ]
+    prompts = {prompt["id"]: prompt for prompt in data["prompts"]}
+    for index, stage in enumerate(data["stages"], 1):
+        lines += [f"## {index}. {stage['title']} ({stage['time']})", "", stage["live"]["purpose"], ""]
+        for step_index, step in enumerate(stage["live"]["steps"], 1):
+            lines += [f"### Live step {step_index} of {len(stage['live']['steps'])}", "", "**Say this**", "", step["say"], "", "**Guide this action**", "", step["action"], "", "**Wait until you see**", "", step["see"], ""]
+        lines += ["**Before the next stage:** " + stage["live"]["transition"], "", "### Full stage notes", "", "**Stage opener:** " + stage["say"], ""]
+        for number, action in enumerate(stage["actions"], 1):
+            lines.append(f"{number}. {action}")
+        lines += ["", "**Stage result:** " + stage["see"], ""]
+        if stage["recovery"]:
+            lines += ["### Stuck?", ""]
+            for item in stage["recovery"]:
+                lines += [f"**{item['symptom']}**", "", item["action"], ""]
+        if stage["send"]:
+            lines += ["### Send or copy", ""]
+            for item in stage["send"]:
+                lines += [f"**{item['label']}**", "", "``````text", item["text"], "``````", ""]
+        for prompt_id in stage["prompt_ids"]:
+            prompt = prompts[prompt_id]
+            lines += [f"### Prompt: {prompt['title']}", "", prompt["hint"], "", "``````markdown", prompt["body"].rstrip(), "``````", ""]
+    lines += ["## Reference links", ""]
+    lines += [f"- [{source['label']}]({source['url']})" for source in data["sources"]]
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--content", type=Path, default=HERE / "content.json")
     parser.add_argument("--output", type=Path, default=HERE / "meet.html")
+    parser.add_argument("--script-output", type=Path, default=HERE / "FACILITATOR.md")
     args = parser.parse_args()
     data = read_content(args.content.resolve())
     args.output.write_text(render(data), encoding="utf-8")
-    print(f"Built {args.output} from {args.content}")
+    args.script_output.write_text(render_script(data), encoding="utf-8")
+    print(f"Built {args.output} and {args.script_output} from {args.content}")
 
 
 if __name__ == "__main__":

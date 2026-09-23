@@ -26,3 +26,13 @@ Missing source access and malicious document instructions to email/delete were r
 ## Not established
 
 No real friend's account was created or connected. This change has not been run end to end on a friend's Mac or Windows computer, in an actual Meet call, or through live native-Git authentication. Automatic backup, PR-writing capability of arbitrary AI products, user benefit, and later return behavior must be observed in the actual session. Print styles and offline fallback are implemented; printed pagination and every browser's clipboard permissions have not been qualified. The files are review materials until the owner accepts and merges them.
+
+## Live-guide revision
+
+The facilitator view now presents 33 conversational actions across nine stages, with spoken wording, the action to guide, the expected visible result, and transitions. `FACILITATOR.md` is generated from the same content for linear reading. The existing detailed instructions and prompts remain available alongside the live script.
+
+Browser checks exercised next action, last-action transition to the next stage, direct stage navigation, restoring stage/action after reload, revealing and focusing missing repository fields, personalized copy readiness and success feedback, and New call reset. Navigation does not automatically mark a stage complete. At 720px and 385px widths, document scroll width matched viewport width after correcting a mobile navigation overflow; text and action buttons remained readable. Narrow layouts retain reset, print, and participant-link controls. Test identity fields were cleared and the temporary viewport override removed.
+
+The browser automation's virtual clipboard did not expose the OS clipboard written by the page, so the paste-through check was unavailable; clipboard verification is limited to rendered substitution, code inspection, and the page's success feedback. No friend or account data was used.
+
+An independent script review found a no-GitHub-account fallback missing from the live save step. The step now explicitly permits saving a local Markdown draft while recording GitHub saving as unfinished. Build syntax, generated-output consistency, relative links, and whitespace checks were rerun for this revision. No live friend session or printed-pagination qualification was added.
