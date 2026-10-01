@@ -4,12 +4,14 @@ type: index
 
 # Start Here
 
-The first-time checklist. Twenty minutes. Every step has something to see.
+The first-time checklist. Allow extra time for installation and authentication. Every step has something to see.
+
+For a guided Google Meet call, start with [[onboarding/FRIEND|the participant guide]]. It includes a browser route and a first useful contribution selected and produced by your AI. The facilitator can use [the call runbook](../onboarding/README.md).
 
 ## On your computer
 
 - [ ] Install **Git** itself. Mac: open Terminal, type `git --version`, accept the prompt to install the command line tools. Windows: git-scm.com, all defaults. Obsidian Git needs it; GitHub Desktop's built-in copy is not enough.
-- [ ] Install **GitHub Desktop** and **Obsidian**. Sign in to GitHub Desktop: it stores the GitHub login Obsidian Git uses and sets your name and email for commits.
+- [ ] Install **GitHub Desktop** and **Obsidian**. Sign in to GitHub Desktop and check its Git identity settings. Obsidian Git uses system Git; Desktop sign-in does not guarantee the plugin can authenticate. Verify its push below.
 - [ ] GitHub Desktop → **Clone repository** → this repository → into a new folder `~/Projects/<Your Name>/`.
 - [ ] Obsidian → **Open folder as vault** → the cloned folder itself. When asked, click **Trust author and enable plugins**. The two plugins this vault uses, Git and Dataview, come with it already set up; that one click turns them on.
 
@@ -23,7 +25,8 @@ The first-time checklist. Twenty minutes. Every step has something to see.
 ## Watch it back itself up
 
 - [ ] Wait up to ten minutes, or run the command **Obsidian Git: Commit-and-sync**. The status bar shows it.
-- [ ] Refresh your repository on GitHub. `Profile.md` has your name; `Daily/` has today. That is the whole backup story.
+- [ ] Refresh your repository on GitHub. Verify your exact new line in today's note. A plugin push confirms that route works; observe a later automatic commit before calling the ten-minute schedule verified.
+- [ ] If plugin authentication blocks you, disable the Git plugin and use Desktop to inspect changes, **Commit to main → Push origin**, then verify the line on GitHub. Record that saving is manual for now. Never paste tokens into a call or chat. On a conflict, preserve both copies and ask for help instead of forcing a push.
 
 ## Let an AI read it
 
@@ -45,4 +48,4 @@ Some AIs can read GitHub but cannot write to it. The system does not care. When 
 
 ## Next
 
-[[System/Prompts|Prompts]] has the four things you paste into any AI. Start with **New project**.
+Use [[onboarding/FRIEND|the guided first contribution]] to let your AI find and do useful work from your project context. [[System/Prompts|Prompts]] also has task, new-repository, and weekly-review workflows; another repository is optional.

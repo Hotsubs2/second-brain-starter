@@ -4,6 +4,8 @@ type: index
 
 # Prompts
 
+For a first session or when you want the AI to identify useful work itself, use the [guided contribution prompts](../onboarding/FRIEND.md#the-prompts-you-can-come-back-to). They cover source access, one substantive contribution, review, and returning later. They authorize one session, not ongoing background work.
+
 Copy a block, fill the `<angle brackets>`, paste into any AI. Each one ends with the same promise: the AI opens a pull request and never merges.
 
 ## New project (reusable, every time)
