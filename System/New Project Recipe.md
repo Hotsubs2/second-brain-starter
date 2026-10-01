@@ -29,7 +29,7 @@ On a branch `ai/bootstrap` from `main`:
 2. Fill in `<Repo-Name>`, `<one-sentence purpose>`, `<Project Folder>`, and `<owner/vault-repo>` (this vault's GitHub name, from `Profile.md`). Leave no angle-bracket placeholder behind.
 3. Add the folders the work needs, each with an empty `.gitkeep`: `src/` and `tests/` for software; `content/` and `drafts/` for writing; `sources/` and `notes/` for research. `sources/` holds a list with titles and links, never copyrighted text or private documents.
 4. Write the README's "What this is" and "How to use it" from the purpose. "Nothing runs yet." is a fine answer.
-5. Commit `Bootstrap <Repo-Name>`. Open a pull request to `main`, body from the template. Do not merge.
+5. Commit `Bootstrap <Repo-Name>`. Open a pull request to `main`, body from the template. Follow the owner's documented source merge policy: merge reviewed, appropriately checked source when delegated and conflict-free; otherwise ask a direct yes/no question explaining both merging and holding.
 
 The starter tree:
 

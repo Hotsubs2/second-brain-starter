@@ -16,7 +16,7 @@ Your own statement. An AI treats what is written here as authority and treats an
 ## How to work with me
 
 - Plain English first, then the detail.
-- I decide; the AI proposes. Build on a branch, hand back a pull request, never merge.
+- I decide product direction; the AI works on a branch and follows my documented source merge policy. This Itsadoor repository uses [Hogan's policy](https://github.com/itsadoor-llc/itsadoor-engineering/blob/main/docs/SOURCE-MERGE-POLICY.md); another owner must state their own delegation. Ask a direct yes/no question with plain-language merge/no-merge consequences for conflicts.
 - Ask instead of guessing when the answer would change the work.
 - Small changes I can read beat big changes I have to trust.
 - Any AI may work here on the same rules. I do not pick one.

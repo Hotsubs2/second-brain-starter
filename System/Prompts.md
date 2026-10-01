@@ -6,7 +6,7 @@ type: index
 
 For a first session or when you want the AI to identify useful work itself, use the [guided contribution prompts](../onboarding/FRIEND.md#the-prompts-you-can-come-back-to). They cover source access, one substantive contribution, review, and returning later. They authorize one session, not ongoing background work.
 
-Copy a block, fill the `<angle brackets>`, paste into any AI. Each one ends with the same promise: the AI opens a pull request and never merges.
+Copy a block, fill the `<angle brackets>`, paste into any AI. Action prompts follow the [actual owner's source merge policy](Source%20Merge%20Policy.md). A delegated conflict-free source change finishes through merge; a conflict or missing delegation requires a direct yes/no question with plain-language consequences. The explanation prompt stays read-only.
 
 ## New project (reusable, every time)
 
@@ -21,7 +21,7 @@ You are my AI worker. Create a new project repository by following my recipe.
 
 Read first, in my vault repository: `AGENTS.md`, `System/New Project Recipe.md`, and every file under `System/repo-template/`.
 
-Then follow the recipe's step 4 exactly: branch `ai/bootstrap` from `main`, copy the starter files from `System/repo-template/`, fill in `<Repo-Name>`, `<one-sentence purpose>`, `<Project Folder>`, and `<owner/vault-repo>`, add the work folders for the kind of work, write the README's "What this is" and "How to use it", commit `Bootstrap <Repo-Name>`, open the pull request with the template body. Do not merge. Give me the link.
+Then follow the recipe's step 4 exactly: branch `ai/bootstrap` from `main`, copy the starter files from `System/repo-template/`, fill in `<Repo-Name>`, `<one-sentence purpose>`, `<Project Folder>`, and `<owner/vault-repo>`, add the work folders for the kind of work, write the README's "What this is" and "How to use it", commit `Bootstrap <Repo-Name>`, open the pull request with the template body. Follow my documented source merge policy. Finish an authorized conflict-free merge after review and appropriate checks, or ask me a direct yes/no question explaining what merging and not merging would mean. Give me the real PR link and actual state.
 
 Then remind me to do step 5 myself: the project note in Obsidian.
 
@@ -54,7 +54,7 @@ You are my AI worker. One task, by the rules in my repository.
 2. If this is more than an afternoon's work, write a GitHub issue first: title = the outcome, "done when" = things I can see, "out of scope". Tell me the number. Otherwise skip this step.
 3. Branch `ai/<slug>` (or `ai/<issue>-<slug>`) from current `main`. Build the smallest version that proves the approach. Commit in small steps with messages that say what and why.
 4. Check it. Run whatever checks `AGENTS.md` names; if it names none, say what you looked at by hand. Paste the output.
-5. Open a pull request with the template: **Plain English**, **What changed**, **How I checked it**, **Not done**, **Next step**. Give me the link. Do not merge.
+5. Open a pull request with the template: **Plain English**, **What changed**, **How I checked it**, **Not done**, **Next step**. Give me the real PR link and actual state. Follow my documented source merge policy: finish a reviewed, appropriately checked conflict-free merge when delegated; otherwise ask me a direct yes/no question with plain-language merge/no-merge consequences.
 
 Stop and ask me if the work grows bigger than the task, if something cannot be undone, if you would need a secret or a private file, or if two instructions conflict. If you cannot create a branch or a pull request, say so first and give me the files as a list with exact paths.
 ```
@@ -74,5 +74,5 @@ Produce, on branch `ai/weekly-<YYYY-MM-DD>`:
 2. **A triage list in the pull request body, not in the notes:** every Log line from the seven daily notes that starts with `- [ ]` or carries `#idea`, each with one proposal: task → which project note; new note from the Note template; drop. I decide. Do not move or delete anything.
 3. **Nothing else changes.**
 
-Open the pull request. In **Plain English**, give me my week in three sentences, from the notes. Give me the link. Do not merge. If a note you needed is missing or empty, say so under Not done; a missing note is a gap, not a fact.
+Open the pull request. In **Plain English**, give me my week in three sentences, from the notes. Give me the real PR link and actual state. Follow my documented source merge policy: finish a reviewed, appropriately checked conflict-free merge when delegated; otherwise ask me a direct yes/no question with plain-language merge/no-merge consequences. If a note you needed is missing or empty, say so under Not done; a missing note is a gap, not a fact.
 ```
