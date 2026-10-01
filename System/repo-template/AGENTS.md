@@ -12,7 +12,7 @@
 
 1. **GitHub is the record.** Branches, commits, and pull requests are the truth. Chat memory is not.
 2. **Read before you act.** Read this file, `README.md`, and the open pull requests. For who the owner is and what is off limits, read `Profile.md`, `Home.md`, and `AI Context.md` in the owner's vault repository (its name is in this repository's README).
-3. **Work on a branch, never on `main`.** Name it `ai/<short-slug>`. Open a pull request with a **Plain English** section first. Never merge; the owner merges.
+3. **Work on a branch, never on `main`.** Name it `ai/<short-slug>`. Open a pull request with a **Plain English** section first. Follow the owner's documented source merge policy. When conflict-free merging is delegated, complete reviewed and appropriately checked source delivery without another approval; otherwise ask a direct yes/no question with plain-language merge/no-merge consequences. Preserve both sides of a conflict and ask before merging its resolution. A template copy does not grant authority over another person's repository.
 4. **Nothing secret, nothing private about other people.** No passwords, keys, tokens, other people's private details, client records, or raw documents. The owner's own list is in `Profile.md`. A private repository still copies everything to GitHub's servers.
 5. **Small changes, honest reports.** Say what you checked and what you did not. Never force-push, rewrite history, delete branches, or change repository settings unless the owner says so in that session.
 6. **Leave the next step in the pull request** before stopping: done, not done, what comes next, and who does it.

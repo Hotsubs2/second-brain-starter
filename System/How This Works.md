@@ -32,7 +32,7 @@ You are the fourth layer: the only one who merges.
 | Push | Send snapshots to GitHub. Obsidian does this by itself. |
 | Pull | Bring down what changed on GitHub, like a merged pull request. Obsidian does this when it opens and every ten minutes. |
 | Branch | A parallel copy for work in progress. `main` is the one that counts. |
-| Pull request | A branch asking to become part of `main`, with a description. You approve it by merging. |
+| Pull request | A branch proposed for `main`, with a description. Your documented merge policy says who can merge it; delegated source merging is separate from accepting every claim. |
 | Merge | Accept a pull request. Squash-and-merge keeps `main` tidy: one snapshot per change. |
 | Conflict | The same line changed in two places. Obsidian shows both versions. Keep both, then ask an AI to help sort it. Never pick a side blindly. |
 

@@ -4,6 +4,8 @@ type: note
 
 # Project status — 2026-09-25
 
+> October 1 update: this Itsadoor source repository uses the current default merge policy. Dated review/handoff facts below remain historical; another person's copied starter follows their own documented delegation and private-note acceptance.
+
 Snapshot of the public starter. It describes `main` as of this date. It does not change the notebook, the rules, or the plugins.
 
 ## Purpose
@@ -33,7 +35,7 @@ This snapshot did not copy notes, paths, or names out of the company vault.
 1. On GitHub, click **Use this template → Create a new repository**. Name it `<yourfirstname>-second-brain` and make it **Private**.
 2. Clone that copy into `~/Projects/<Your Name>/`. In Obsidian, open the cloned folder as a vault and click **Trust author and enable plugins**. Git and Dataview are already in the vault.
 3. Fill the three **you** lines in `Profile.md`. Use the calendar icon to make today's note. Obsidian Git commits and pushes that copy.
-4. Any AI reads `AGENTS.md`, works on a branch, and opens a pull request. The owner merges. An AI does not write to `main`.
+4. Any AI reads `AGENTS.md`, works on a branch, and opens a pull request. Source merging follows the [current policy](https://github.com/itsadoor-llc/itsadoor-engineering/blob/main/docs/SOURCE-MERGE-POLICY.md); an AI works through PRs instead of direct `main` pushes.
 5. A new project repository follows `System/New Project Recipe.md` and starts from `System/repo-template/`.
 
 The first-time checklist is `System/Start Here.md`. The plain-English map is `System/How This Works.md`.
